@@ -1,0 +1,9 @@
+Flask==2.3.2
+tensorflow==2.14.0
+numpy==1.24.3
+pandas==1.5.3
+gunicorn==20.1.0         # Production-ready WSGI server
+scikit-learn==1.2.2      # Optional, for additional ML utilities
+opencv-python-headless==4.7.0.72  # For image processing (headless version for servers)
+matplotlib==3.7.2        # For plotting, if needed
+requests==2.31.0         # For making HTTP requests
