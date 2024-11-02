@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tomato Leaf Disease Detector</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Base Styles */
+        body {
+            background-color: #0a0a0a;
+            color: #f1f1f1;
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 1rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            transition: background-color 0.4s ease;
+        }
+        .navbar-brand {
+            color: #ff9800 !important;
+            font-weight: bold;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+        }
+        .nav-link {
+            color: #ffffff;
+            margin: 0 1rem;
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            width: 0%;
+            height: 2px;
+            background: #ff9800;
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            transition: width 0.3s;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: radial-gradient(circle, #ff512f, #dd2476);
+            color: #fff;
+            text-align: center;
+            padding: 150px 0;
+            animation: gradientShift 12s infinite alternate;
+        }
+        @keyframes gradientShift {
+            0% { background: radial-gradient(circle, #ff512f, #dd2476); }
+            100% { background: radial-gradient(circle, #fc466b, #3f5efb); }
+        }
+        .hero-section h1 {
+            font-size: 4rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+            letter-spacing: 1px;
+        }
+        .hero-section p {
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+        }
+        .hero-section .btn-primary {
+            background-color: #ff9800;
+            border: none;
+            font-weight: bold;
+            padding: 0.75rem 1.5rem;
+            box-shadow: 0px 8px 15px rgba(255, 152, 0, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hero-section .btn-primary:hover {
+            transform: scale(1.1);
+            box-shadow: 0px 12px 20px rgba(255, 152, 0, 0.6);
+        }
+
+        /* Section Headings */
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #ff9800;
+            text-align: center;
+            margin-bottom: 1rem;
+            position: relative;
+            text-transform: uppercase;
+        }
+        h2::after {
+            content: '';
+            width: 50px;
+            height: 4px;
+            background: #ff9800;
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        /* Content Sections */
+        .section-content {
+            max-width: 800px;
+            margin: auto;
+            text-align: center;
+            color: #e0e0e0;
+            font-size: 1.1rem;
+            padding-bottom: 2rem;
+        }
+        .bg-dark {
+            background: #1f1f1f;
+            padding: 60px 0;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Plant List */
+        .plant-list ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+        .plant-list li {
+            color: #ffeb3b;
+            font-weight: 600;
+            padding: 5px 10px;
+            font-size: 1.1rem;
+            background-color: rgba(255, 235, 59, 0.1);
+            border-radius: 5px;
+            transition: transform 0.3s, color 0.3s;
+        }
+        .plant-list li:hover {
+            color: #ffffff;
+            transform: scale(1.1);
+            background-color: #ff9800;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0d0d0d;
+            color: #fff;
+            padding: 40px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 -8px 15px rgba(0, 0, 0, 0.5);
+            position: relative;
+            text-align: center;
+        }
+        footer p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+        footer a {
+            color: #ff9800;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        footer a:hover {
+            color: #ff512f;
+        }
+        footer .social-icons {
+            display: flex;
+            gap: 20px;
+        }
+        footer .social-icons a {
+            color: #ff9800;
+            font-size: 1.5rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        footer .social-icons a:hover {
+            color: #ff512f;
+            transform: scale(1.2);
+        }
+        .predicted-disease {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+            background-color: #444;
+            color: #eaeaea;
+            padding: 12px 24px;
+            border-radius: 25px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .predicted-disease:hover {
+            background-color: #555;
+            color: #eaeaea;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Leaf Guard AI</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#home">HOME</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#model-working">MODEL WORKING</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#predict">PREDICT DISEASE</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#plant-list">PLANT LIST</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">CONTACT</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero-section">
+            <div class="container">
+                <h1>Welcome to<br>Plant Leaf Disease Detector</h1>
+                <p>Empower your gardening with AI-driven disease detection for plants.</p>
+                <a href="#model-working" class="btn btn-primary">Learn About Our Model</a>
+            </div>
+        </section>
+
+        <!-- Model Working Section -->
+        <section id="model-working" class="bg-dark">
+            <div class="container section-content">
+                <h2>Model Working</h2>
+                <p>Our AI model leverages advanced machine learning algorithms to analyze images of plant leaves. By processing the images at a pixel level, the model identifies patterns associated with various diseases. These patterns are then compared against a vast database of known disease indicators to provide accurate diagnoses.</p>
+            </div>
+        </section>
+
+        <!-- Predict Section -->
+        <section id="predict" class="py-5 bg-dark text-white">
+            <div class="container text-center">
+                <h2>Predict Disease</h2>
+                <p>Upload the image of a tomato plant leaf to check for potential diseases.</p>
+                <form id="upload-form" method="POST" enctype="multipart/form-data" action="/predict">
+                    <div class="upload-area">
+                        <input type="file" id="image-upload" name="file" accept="image/*" class="form-control">
+                        <img id="preview-image" src="#" alt="your image" style="display:none;">
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3">Analyze Image</button>
+                </form>
+                <div id="result" class="mt-3">
+                    {% if result %}
+                        <p><span class="predicted-disease">Predicted Disease: {{ result }}</span></p>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+
+        <!-- Plant List Section -->
+        <section id="plant-list" class="bg-dark plant-list">
+            <div class="container section-content">
+                <h2>Supported Plants & Diseases</h2>
+                <ul>
+                    <li>Apple - Scab</li>
+                    <li>Apple - Black rot</li>
+                    <li>Apple - Cedar apple rust</li>
+                    <li>Apple - Healthy</li>
+                    <li>Cherry - Powdery mildew</li>
+                    <li>Cherry - Healthy</li>
+                    <li>Chili - Healthy</li>
+                    <li>Chili - Leaf curl</li>
+                    <li>Chili - Leaf spot</li>
+                    <li>Chili - Whitefly</li>
+                    <li>Chili - Yellowish</li>
+                    <li>Coffee - Rust</li>
+                    <li>Coffee - Healthy</li>
+                    <li>Coffee - Red spider mite</li>
+                    <li>Corn (maize) - Cercospora leaf spot, Gray leaf spot</li>
+                    <li>Corn (maize) - Common rust</li>
+                    <li>Corn (maize) - Northern Leaf Blight</li>
+                    <li>Corn (maize) - Healthy</li>
+                    <li>Grape - Black rot</li>
+                    <li>Grape - Esca (Black Measles)</li>
+                    <li>Grape - Leaf blight (Isariopsis Leaf Spot)</li>
+                    <li>Grape - Healthy</li>
+                    <li>Peach - Bacterial spot</li>
+                    <li>Peach - Healthy</li>
+                    <li>Pepper, bell - Bacterial spot</li>
+                    <li>Pepper, bell - Healthy</li>
+                    <li>Potato - Early blight</li>
+                    <li>Potato - Late blight</li>
+                    <li>Potato - Healthy</li>
+                    <li>Strawberry - Leaf</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="bg-dark">
+            <div class="container section-content">
+                <h2>Contact Us</h2>
+                <p>For inquiries or support, email us at <a href="mailto:support@plantdisease.com">support@plantdisease.com</a></p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="social-icons">
+            <a href="#"><i class="bi bi-facebook"></i></a>
+            <a href="#"><i class="bi bi-twitter"></i></a>
+            <a href="#"><i class="bi bi-instagram"></i></a>
+            <a href="#"><i class="bi bi-linkedin"></i></a>
+        </div>
+        <p>&copy; 2024 Plant Disease Detector. All rights reserved.</p>
+        <p>Developed with passion for healthier plants worldwide.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
