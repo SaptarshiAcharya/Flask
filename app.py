@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 # Load the trained model
 try:
-    model = tf.keras.models.load_model('.\leaf_disease.h5')
+    model = tf.keras.models.load_model('model_folder\leaf_disease.h5')
     print("Model loaded successfully.")
 except Exception as e:
     print(f"Error loading model: {e}")
@@ -99,4 +99,4 @@ def contact():
 
 if __name__ == '__main__':
     os.makedirs('uploads', exist_ok=True)
-    app.run(host="0.0.0.0", port=80)
+    app.run(debug=True,host="0.0.0.0", port=80)
